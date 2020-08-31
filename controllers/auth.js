@@ -48,11 +48,11 @@ module.exports.register = async function (req, res) {
       })
     } else {
       const hashPassword = await bcrypt.hash(req.body.password, 10)
-      const user = new User({
+      const user = await new User({
         email: req.body.email,
         password: hashPassword,
-      })
-      await user.save()
+      }).user.save()
+
       res.status(201).json(user)
     }
   } catch (e) {
