@@ -17,16 +17,16 @@ try {
         userId: candidate._id
       }, keys.jwt, {expiresIn: 60 * 60 })
 
-      res.status(200).json({
+      await res.status(200).json({
         token: `Bearer ${token}`
       })
     } else {
-      res.status(401).json({
+      await res.status(401).json({
         message: 'Invalid password'
       })
     }
   } else {
-    res.status(404).json({
+    await res.status(404).json({
       message: 'User is not found'
     })
   }
@@ -43,7 +43,7 @@ module.exports.register = async function (req, res) {
     })
 
     if (candidate) {
-      res.status(409).json({
+      await res.status(409).json({
         message: 'This user already exist'
       })
     } else {
@@ -53,7 +53,7 @@ module.exports.register = async function (req, res) {
         password: hashPassword,
       }).user.save()
 
-      res.status(201).json(user)
+      await res.status(201).json(user)
     }
   } catch (e) {
     errorHandler(res, e)
